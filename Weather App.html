@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Weather App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body{
+            height: 100vh;
+            display: grid;
+            place-items: center
+        }
+        .temp-box{
+            width: 300px;
+            border-radius: 10px;
+            background-image: linear-gradient(180deg,red, orange);
+            padding: 20px;
+        }
+        .temp-box>header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 20px;
+            color: white;
+        }
+        .temp-box>header>span:last-child{
+            font-size: 40px;
+            margin-top: -20px;
+        }
+        .temp-box>.temp-show{
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(closest-side, red, 79%, transparent 80% 100%), conic-gradient(red 0, white 75%);
+            border: 1px solid rgba(0, 0, 0, .1);
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .temp-box>.temp-show>.progress-div{
+            color: white;
+            font-size: 35px;
+        }
+        .temp-box>.temp-details{
+            text-align: center;
+            font-size: 20px;
+            margin: 10px 0 20px 0;
+        }
+        .temp-box>.input-group>.btn{
+            background: linear-gradient(70deg,red, orange);
+        }
+        #txt{
+            text-transform: capitalize;
+        }
+    </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="row ">
+        <div class="col-12">
+            <div class="temp-box m-auto">
+               <header>
+                <span>Tempareture</span>
+                <span>...</span>
+               </header>
+               <div class="temp-show">
+                <div class="progress-div">
+                    <span id="temp">Fetching...</span>
+                </div>
+               </div>
+               <div class="temp-details">
+                <i class="fa fa-map-marker"></i>
+                <span class="city">Rishikesh</span>
+                <span id="time"></span>
+                <span id="min"></span>
+                <span id="am">AM</span>
+               </div>
+               <div class="input-group">
+                <input type="text" id="txt" class="form-control" placeholder="Enter your city here...">
+                <button class="btn btn-block my-2" id="btn" onclick="abc()">Get Temparature</button>
+               </div>
+            </div>
+        </div>
+    </div>
+  </div>
+    
+   <script>
+    
+const url = `https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city=`;
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '0628b3ac9bmsh9e2f5aaa7fd4ce1p18d636jsnd78a0f9a0f5d',
+		'X-RapidAPI-Host': 'weather-by-api-ninjas.p.rapidapi.com'
+	}
+};
+
+
+
+const abc=()=>{
+    const city = document.getElementById('txt').value;
+    console.log(city);
+fetch(url.concat(city),options)
+.then(response => response.json())
+.then((response) => {
+	console.log(response);
+	let t = document.querySelector('#temp');
+     t.innerHTML = response.temp+" <sup>o</sup>C";
+document.getElementById('txt').value = '';
+document.getElementsByClassName('city')[0].innerText = city;
+document.getElementsByClassName('city')[0].style.textTransform= 'capitalize';
+let tempCircle = document.querySelector('.temp-show');
+tempCircle.style.background = `radial-gradient(closest-side, red, 79%, transparent 80% 100%), conic-gradient(red 0, white, 58%);`
+})
+.catch(err => console.log(err));
+    
+}
+document.querySelector('#btn').addEventListener('click',abc);
+
+
+const Time=()=>{
+    let date = new Date();
+    let h = date.getHours();
+    let m = date.getMinutes();
+    if(h >= 12){
+        document.getElementById('am').innerHTML = "AM";
+    }
+   
+    h = (h >= 12)? h - 12: h;
+    h = (h < 10)? '0'+h : h;
+    m = (m < 10)? '0'+m : m;
+    
+    document.getElementById('time').innerHTML = h+" : ";
+    document.getElementById('min').innerHTML = m;
+}
+
+setInterval(Time, 100);
+
+   </script>
+</body>
+</html>

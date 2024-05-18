@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Add To Cart</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+	 <style type="text/css">
+	 	.container>#myCardRow>.col-md-4>.card{
+	 		border: 1px solid #be9d59;
+	 	}
+	 	.container>#myCardRow>.col-md-4>.card>.card-body{
+	 		color: #955941;
+	 	}
+	 	.container>#myCardRow>.col-md-4>.card>.card-body>h1{
+	 		font-size: 30px;
+	 		color: #444444;
+	 		position: relative;
+	 		display: flex;
+	 		justify-content: center;
+	 	}
+	 	.container>#myCardRow>.col-md-4>.card>.card-body>h1::after{
+	 		content: '';
+	 		width: 100px;
+	 		height: 5px;
+	 		background-color: #955941;
+	 		position: absolute;
+	 		bottom: 0;
+	 		margin: -10px 0;
+	 	}
+	 	.container>#myCardRow>.col-md-4>.card>.card-body>h4{
+	 		font-size: 20px;
+	 		margin: 20px 0;
+	 	}
+	 	.container>#myCardRow>.col-md-4>.card>.card-body>button{
+	 		background-color: #be9d59;
+	 		font-size: 20px;
+	 		padding: 10px 0;
+	 		border: none;
+	 		color: white;
+	 		box-shadow: none;
+	 	}
+	 	.container>#myCardRow>.col-md-4>.card>.card-body>button:hover{
+	 		filter: brightness(110%);
+	 	}
+	 	.container-fluid>.row>i{
+	 		color: black;
+	 		cursor: pointer;
+/*	 		z-index: 1;*/
+	 	}
+	 	.container-fluid>.row>.cart-length{
+	 		font-size: 20px;
+	 		margin: 10px 0 0 -30px;
+	 		color: white;
+	 		cursor: pointer;
+	 	}
+	 	.aside{
+	 		width: 0;
+	 		overflow: hidden;
+	 		background-color: black;
+	 		min-height: 100vh;
+	 		position: fixed;
+	 		right: 0;
+	 		z-index: 1;
+	 	}
+	 	.aside>.my-cart{
+	 		width: 100%;
+	 		padding: 10px 20px;
+	 		background-color: #be9d59;
+	 		border-radius: 5px;
+	 		font-size: 20px;
+	 		font-weight: bold;
+	 		color: white;
+	 	}
+	 	.aside>#cart-item>.row>div{
+	 		display: flex;
+	 		align-items: center;
+	 		font-size: 20px;
+	 	}
+	 	.aside>#cart-item>.row>div>img{
+	 		width: 100px;
+	 		height: 70px;
+	 		border-radius: 50%;
+	 	}
+	 	.aside>#cart-item>.row>div>i{
+	 		cursor: pointer;
+	 	}
+		.container-fluid>.row>h2{
+			color: #be9d59;
+		}
+		.flesh-msg{
+			box-shadow: 0 0 5px black;
+			font-size: 1em;
+			padding: 5px 8px;
+			border-radius: 5px;
+			background-color: white;
+			display: block;
+			min-width: 150px;
+			position: fixed;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 1;
+		}
+	 </style>
+</head>
+<body onload="displayCart()">
+
+<!-- <span class="flesh-msg"><i class="fa fa-check-circle" style="color: lime;"></i> Item Added To Cart!</span> -->
+
+<div class="container-fluid sticky-top">
+	<div class="row px-5 py-2" id="length" style="background: #FCF8E4;">
+		<img src="brilliant-makers-logo.png">
+		<!-- <h2 class="font-weight-bold my-3 ml-2">COURSES</h2> -->
+		<i class="fa fa-shopping-cart fa-4x ml-auto" onclick="showCart()"></i>
+		<span class="cart-length" onclick="showCart()">0</span>
+	</div>
+</div>
+
+<aside class="aside">
+	<div class="my-cart">
+			<span>My Cart</span>
+		</div>
+	<div class="container-fluid text-white" id="cart-item">
+		
+	</div>
+</aside>
+
+<div class="container mt-3">
+	<div class="row">
+		<div class="col text-center">
+			<h3>Our Courses</h3>
+		</div>
+	</div>
+</div>
+<section class="container">
+	<div class="row" id="myCardRow">
+
+	</div>
+</section>
+
+<div class="container my-5">
+	<div class="row">
+		<div class="col text-center">
+			<button class="btn btn-danger" onclick="delData()">Delete</button>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	const product = [
+			{
+				id : 101,
+				name : "Tally Expert",
+				image : "Full Stack.jpg",
+				price : 35000,
+			},
+			{
+				id : 102,
+				name : "DCTTC",
+				image : "Full Stack.jpg",
+				price : 20000,
+			},
+			{
+				id : 103,
+				name : "ADCA",
+				image : "Full Stack.jpg",
+				price : 18000,
+			},
+			{
+				id : 104,
+				name : "DCA",
+				image : "Full Stack.jpg",
+				price : 35000,
+			},
+			{
+				id : 105,
+				name : "Tally Prime",
+				image : "Full Stack.jpg",
+				price : 20000,
+			},
+			{
+				id : 106,
+				name : "SST",
+				image : "Full Stack.jpg",
+				price : 18000,
+			},
+			{
+				id : 107,
+				name : "DTP",
+				image : "Full Stack.jpg",
+				price : 35000,
+			},
+			{
+				id : 108,
+				name : "Advanced Excel",
+				image : "Full Stack.jpg",
+				price : 20000,
+			},
+			{
+				id : 109,
+				name : "Web Development",
+				image : "Full Stack.jpg",
+				price : 18000,
+			},
+		];
+
+
+
+
+const categeries = [...new Set(product.map((item) => item))];
+// console.log(categeries);
+
+let i = 0;
+document.getElementById('myCardRow').innerHTML = categeries.map((item)=>{
+	var {name, image, price} = item;
+	return (`
+			<div class="col-md-4 my-3">
+			<div class="card">
+				<img src="${image}" class="img-top" />
+				<div class="card-body text-center">
+					<h1 class="card-title">${name}</h1>
+					<h4>${price}/- Only</h4>
+					<button class="btn btn-block" onclick="addToCart(${i++})">Add To Cart</button>
+				</div>
+			</div>
+			</div>		
+		`);
+
+}).join("");
+
+
+const createFleshMsg=()=>{
+	let msgbox = document.createElement('span');
+	msgbox.innerHTML = '<i class="fa fa-check-circle" style="color: lime;"></i> Item Added To Cart!';
+	msgbox.classList.add('flesh-msg');
+	document.querySelector('body').append(msgbox);
+	setTimeout(()=>{
+		msgbox.remove();
+	}, 1000);
+}
+
+var addCart = [];
+
+const addToCart=(a)=>{
+	let isAdded = false;
+	var newData = categeries[a];
+	if(localStorage.getItem('data') == null){
+		localStorage.setItem('data', '[]');
+	}
+	addCart = JSON.parse(localStorage.getItem('data'));
+	// console.log(newData);
+	// console.log(addCart);
+	addCart.map((item)=>{
+		if(item.id == newData.id){
+		isAdded = true;
+	}
+	
+	})
+	if(isAdded == true){
+		alert("Item already added!");
+	}
+	else{
+		addCart.push(newData);
+		localStorage.setItem('data', JSON.stringify(addCart));
+		createFleshMsg();
+	}
+	displayCart();
+ }
+
+
+const displayCart=(a)=>{
+	let j = 0;
+		 let localData = JSON.parse(localStorage.getItem('data'));
+		//  console.log(localData)
+	document.querySelector('.cart-length').innerText = localData.length;
+	if(localData.length == 0){
+		document.getElementById('cart-item').innerText = "Your Cart is empty.";
+	}
+	else{
+		
+		document.getElementById('cart-item').innerHTML = localData.map((item)=>{
+		var {image, name, price} = item;
+		return (`
+			<div class="row my-2">
+				<div class="col-3">
+					<img src="${image}" class="img-fluid">
+				</div>
+				<div class="col-3">
+					${name}
+				</div>
+				<div class="col-3">
+					${price}
+				</div>
+				<div class="col-3">
+					<i class="fa fa-trash" onclick="delItem(${j++})"></i>
+				</div>
+			</div>
+		`);
+	}).join("");
+}
+}
+
+
+// Delete item from add to cart
+const delItem=(a)=>{
+	addCart = JSON.parse(localStorage.getItem('data'));
+	addCart.splice(a, 1);
+	localStorage.setItem('data', JSON.stringify(addCart));
+	displayCart();
+}
+
+const delData=()=>{
+	localStorage.clear();
+	location.reload();
+}
+
+
+// Show cart item in sidebar
+
+showAddToCart = true;
+
+const showCart=()=>{
+	if(showAddToCart == true){
+		if(window.innerWidth <= 576){
+			document.querySelector('.aside').style.width = "100%";
+		}
+		else{
+			document.querySelector('.aside').style.width = "450px";
+		}
+		showAddToCart = false;
+	}
+	else{
+		document.querySelector('.aside').style.width = "0";
+		showAddToCart = true;
+	}
+}
+window.addEventListener("resize", ()=>{
+	if(window.innerWidth <= 576){
+		location.reload();
+	}
+})
+
+
+
+
+
+</script>
+</body>
+</html>
